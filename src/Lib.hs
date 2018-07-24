@@ -1,22 +1,24 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Lib where
 
 import Data.Incremental
+import Data.Text
 
 data Person = Person
-  { name :: String
+  { name :: Text
   , age  :: Int
   } deriving (Eq, Show)
 
 data PersonDiff = PersonDiff
-  { diffName :: Maybe String
+  { diffName :: Maybe Text
   , diffAge  :: Maybe Int
   } deriving (Eq, Show)
 
-instance Incremental String where
-  type Delta String = String
+instance Incremental Text where
+  type Delta Text = Text
   diff str1 str2 =
     if str1 == str2
     then Nothing
