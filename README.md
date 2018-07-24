@@ -24,4 +24,4 @@ Just (PersonDiff {diffName = Just 'b', diffAge = Nothing})
 Just (PersonDiff {diffName = Just 'B', diffAge = Just 14})
 Just (PersonDiff {diffName = Just 'B', diffAge = Just 14})
 Just (PersonDiff {diffName = Nothing, diffAge = Nothing})
-```hs
+```
