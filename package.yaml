@@ -14,8 +14,8 @@ description:         Please see the README on GitHub at <https://github.com/wadd
 
 dependencies:
 - base >= 4.7 && < 5
-- diffs
 - incremental
+- extensible
 
 library:
   source-dirs: src

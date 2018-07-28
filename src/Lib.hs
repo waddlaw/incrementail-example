@@ -1,19 +1,22 @@
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedLabels  #-}
+{-# LANGUAGE TypeFamilies      #-}
+{-# LANGUAGE TypeOperators     #-}
 module Lib where
 
-import Data.Incremental
+import           Data.Extensible
+import           Data.Incremental
 
-data Person = Person
-  { name :: String
-  , age  :: Int
-  } deriving (Eq, Show)
+type Person = Record
+  '[ "name" >: String
+   , "age"  >: Int
+   ]
 
-data PersonDiff = PersonDiff
-  { diffName :: Maybe String
-  , diffAge  :: Maybe Int
-  } deriving (Eq, Show)
+type PersonDiff = Record
+  '[ "name" >: Maybe String
+   , "age"  >: Maybe Int
+   ]
 
 instance Incremental String where
   type Delta String = String
@@ -22,18 +25,20 @@ instance Incremental String where
     then Nothing
     else Just ""
 
-instance Incremental Person where
-  type Delta Person = PersonDiff
-  diff (Person name1 age1) (Person name2 age2) = Just $ PersonDiff (diff name1 name2) (diff age1 age2)
-
 alice :: Person
-alice = Person "Alice" 10
+alice = #name @= "Alice"
+     <: #age  @= 10
+     <: nil
 
 bob :: Person
-bob = Person "Bob" 10
+bob = #name @= "Bob"
+   <: #age  @= 10
+   <: nil
 
 fakeBob :: Person
-fakeBob = Person "BoB" 14
+fakeBob = #name @= "BoB"
+       <: #age  @= 14
+       <: nil
 
 example :: IO ()
 example = do
